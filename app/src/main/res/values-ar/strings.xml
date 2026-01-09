@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">الحاسبة الاحترافية</string>
+    <string name="history_title">السجل</string>
+    <string name="clear_history">مسح السجل</string>
+    <string name="close">إغلاق</string>
+    <string name="error">خطأ</string>
+</resources>
