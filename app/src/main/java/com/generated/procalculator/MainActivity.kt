@@ -8,11 +8,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Backspace
 import androidx.compose.material.icons.filled.History
@@ -21,11 +21,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -75,7 +72,6 @@ fun CalculatorScreen() {
     }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        // Top Bar area with History
         Box(modifier = Modifier.fillMaxWidth()) {
             IconButton(
                 onClick = { showHistory = true },
@@ -85,7 +81,6 @@ fun CalculatorScreen() {
             }
         }
 
-        // Display Area
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -113,7 +108,6 @@ fun CalculatorScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Keypad
         val buttons = listOf(
             "C", "(", ")", "÷",
             "7", "8", "9", "×",
@@ -129,7 +123,9 @@ fun CalculatorScreen() {
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.fillMaxWidth().height(450.dp)
         ) {
-            items(buttons) { btn ->
+            items(buttons, span = { item ->
+                GridItemSpan(if (item == "=") 2 else 1)
+            }) { btn ->
                 CalculatorButton(
                     symbol = btn,
                     modifier = Modifier.aspectRatio(if(btn == "=") 2f else 1f),
@@ -198,9 +194,9 @@ fun HistorySheet(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(stringResource(R.string.history_title), style = MaterialTheme.typography.titleLarge)
+            Text(androidx.compose.ui.res.stringResource(R.string.history_title), style = MaterialTheme.typography.titleLarge)
             TextButton(onClick = onClear) {
-                Text(stringResource(R.string.clear_history))
+                Text(androidx.compose.ui.res.stringResource(R.string.clear_history))
             }
         }
         
@@ -219,7 +215,7 @@ fun HistorySheet(
         }
         
         Button(onClick = onClose, modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
-            Text(stringResource(R.string.close))
+            Text(androidx.compose.ui.res.stringResource(R.string.close))
         }
     }
 }
